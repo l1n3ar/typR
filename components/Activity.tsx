@@ -5,7 +5,7 @@ import 'react-calendar-heatmap/dist/styles.css';
 
 export default function Activity() {
     return (
-        <div className='mt-10'>
+        <div>
         <CalendarHeatmap
   startDate={new Date('2024-01-01')}
   endDate={new Date('2024-12-01')}
