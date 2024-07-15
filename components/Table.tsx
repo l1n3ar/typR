@@ -3,6 +3,7 @@ import React from 'react'
 import { Button } from './ui/button'
 import { lessonPlans } from '@/data/lesson-plans'
 import { Basic, Intermediate, Advanced } from './Badges'
+import Dropdown from './Dropdown'
 
 const Table = () => {
     return (
@@ -35,6 +36,9 @@ const Table = () => {
                                     <Button variant='secondary'>Start</Button>
                                 </a>
                             </td>
+                            {/* <td className="px-6 py-4 text-right">
+                                <Dropdown />
+                            </td> */}
                         </tr>
                     ))}
                 </tbody>

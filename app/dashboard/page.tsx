@@ -12,6 +12,7 @@ import {
 import Table from '@/components/Table'
 import SubscriptionCard from '@/components/SubscriptionCard'
 import { Button } from '@/components/ui/button'
+import ProgressTabs from '@/components/Progress/ProgressTabs'
 
 const Dashboard = () => {
     return (
@@ -20,14 +21,14 @@ const Dashboard = () => {
             <Card className='col-span-3 row-span-2'>
                 <CardHeader>
                     <CardTitle>
-                        <div className='flex justify-between items-start -mb-4'>
+                        <div className='flex justify-between items-start '>
                         <p>Lesson Plans</p>
                         <Button>See More</Button>
                         </div>
                         </CardTitle>
-                    <CardDescription>Find your current lesson plans</CardDescription>
+                    {/* <CardDescription>Find your current lesson plans</CardDescription> */}
                 </CardHeader>
-                <CardContent className= 'overflow-auto max-h-[25rem]'>
+                <CardContent className= 'overflow-auto max-h-[30rem]'>
                    <Table />
                 </CardContent>
      
@@ -37,9 +38,11 @@ const Dashboard = () => {
                 <Card className='row-span-1'>
                     <CardHeader>
                         <CardTitle>Progress</CardTitle>
-                        <CardDescription>Your daily, weekly, and monthly analytics</CardDescription>
+                        {/* <CardDescription></CardDescription> */}
                     </CardHeader>
-     
+                    <CardContent className= 'overflow-auto mt-4'>
+                   <ProgressTabs />
+                </CardContent>
                 </Card>
 
 
