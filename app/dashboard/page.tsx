@@ -72,7 +72,7 @@ const Dashboard = () => {
                 </CardContent>
             </Card>
 
-            <Card className='col-span-1 row-span-2'>
+            <Card className='col-span-1 row-span-2 pr-2'>
                 <CardHeader>
                     <CardTitle>Progress</CardTitle>
                 </CardHeader>
