@@ -15,6 +15,8 @@ import { Button } from '@/components/ui/button'
 import ProgressTabs from '@/components/Progress/ProgressTabs'
 import Activity from '@/components/Activity'
 import { Check } from 'lucide-react'
+import { DatePickerWithRange } from '@/components/Progress/DateRange'
+import ProgressAnalytics from '@/components/Progress/ProgressAnalytics'
 
 const announcements = [
     {
@@ -31,7 +33,7 @@ const announcements = [
     },
 ]
 
-const AnnouncementCard = ({ title, description } : {title : string, description : string}) => (
+const AnnouncementCard = ({ title, description }: { title: string, description: string }) => (
     <div className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
         <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
         <div className="">
@@ -41,16 +43,19 @@ const AnnouncementCard = ({ title, description } : {title : string, description 
             <p className="text-sm text-muted-foreground">
                 {description}
             </p>
-         
+
         </div>
     </div>
 )
 
-const InfoCard = ({ title, description } : {title : string, description : string}) => (
+const InfoCard = ({ title, description }: { title: string, description: string }) => (
     <Card className='col-span-1 row-span-2'>
         <CardHeader>
             <CardTitle>{title}</CardTitle>
             <CardDescription>{description}</CardDescription>
+            <CardContent className='flex items-center justify-center h-[25rem]'>
+                <div className='bg-gray-50 rounded-full w-1/2 text-gray-600 font-semibold p-4 text-center'>Coming soon</div>
+            </CardContent>
         </CardHeader>
     </Card>
 )
@@ -77,7 +82,14 @@ const Dashboard = () => {
                     <CardTitle>Progress</CardTitle>
                 </CardHeader>
                 <CardContent className='overflow-auto mt-4'>
-                    <ProgressTabs />
+                    <div className='flex gap-2'>
+                        <DatePickerWithRange />
+                        <Button variant='secondary' className='cursor-pointer'>Search</Button>
+                       
+                    </div>
+                 
+                    <ProgressAnalytics />
+
                 </CardContent>
             </Card>
 
@@ -93,12 +105,15 @@ const Dashboard = () => {
 
                 <Card className='col-span-2 row-span-1'>
                     <CardHeader>
-                        <CardTitle>Some other metric</CardTitle>
+                        <CardTitle>Certificates</CardTitle>
                     </CardHeader>
+                    <CardContent className='flex items-start justify-center h-full'>
+                        <div className='bg-gray-50 rounded-full w-1/2 text-gray-600 font-semibold p-4 text-center'>Coming soon</div>
+                    </CardContent>
                 </Card>
             </div>
 
-            <InfoCard title="More Info" description="Additional information or content" />
+            <InfoCard title="Competitions" description="" />
 
             <Card className='col-span-1 row-span-2'>
                 <CardHeader className='mb-4'>
