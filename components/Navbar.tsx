@@ -22,7 +22,7 @@ const Navbar = () => {
       </div>
       <div className="flex gap-14 items-center">
 
-        <div className="flex items-center justify-around">
+        <div className="flex items-center justify-around" >
       <Button variant='link'>
       Practice<SquareArrowOutUpRight className="ml-1 h-3 w-3" /> 
     </Button>

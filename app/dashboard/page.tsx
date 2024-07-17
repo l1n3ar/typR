@@ -67,7 +67,7 @@ const Dashboard = () => {
                 <CardHeader>
                     <CardTitle>
                         <div className='flex justify-between items-start '>
-                            <p>Lesson Plans</p>
+                            <p>Lessons</p>
                             <Button>See More</Button>
                         </div>
                     </CardTitle>
