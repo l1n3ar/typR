@@ -73,3 +73,11 @@
   .react-calendar-heatmap .color-scale-3 { fill: #8fdb8e; }
   .react-calendar-heatmap .color-scale-4 { fill: #085d21; }
 }
+
+@layer utilities {
+  .spell-check-none {
+    -webkit-text-fill-color: currentColor;
+    -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+    box-shadow: 0 0 0px 1000px transparent inset;
+  }
+}
