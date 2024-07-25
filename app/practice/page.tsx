@@ -27,11 +27,13 @@ const AnalyticsCard: React.FC<AnalyticsCardProps> = ({ title, value, icon: Icon 
 interface TypingLessonProps {
   lessonText: string;
   timeLimit?: number; // in seconds
-  lessonName?: string;
-  description?: string;
+  id?: string;
+  level? : string
+  name?: string;
+  rounded? : boolean
 }
 
-const TypingLesson: React.FC<TypingLessonProps> = ({ lessonText, timeLimit, lessonName, description }) => {
+export const TypingLesson: React.FC<TypingLessonProps> = ({ lessonText, timeLimit, id, name, level, rounded }) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<Date | null>(null);
@@ -112,12 +114,13 @@ const TypingLesson: React.FC<TypingLessonProps> = ({ lessonText, timeLimit, less
   }, [lessonText, startTime, timeLimit]);
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen bg-black text-white p-4 overflow-y-hidden gap-48">
+    <div className={`flex flex-col items-center justify-start min-h-screen bg-black text-white p-4 overflow-y-hidden gap-48 ${rounded ? 'rounded-lg' : ''}`}>
       <div className='flex w-full p-4 items-center justify-between'>
         <div className='flex flex-col items-start '>
-          <h1 className='text-3xl font-light font-mono'># {lessonName ? lessonName : 'P-001'}</h1>
-          <p className='text-neutral-400 font-mono font-light'>{description ? description : 'Learning the basics'}</p>
+          <h1 className='text-3xl font-light font-mono'># {id ? id : 'P-001'}</h1>
+          <p className='text-neutral-400 font-mono font-light'>{name ? name : 'Learning the basics'}</p>
         </div>
+        <div className='border border-green-300 rounded-lg px-2 font-mono py-1 '>{level?.toUpperCase()}</div>
         <button
           onClick={restartLesson}
           className="flex items-center justify-center bg-black text-white py-2 px-4 rounded-md hover:bg-neutral-800 transition-colors duration-200 shadow-sm"

@@ -17,6 +17,7 @@ import Activity from '@/components/Activity'
 import { Check } from 'lucide-react'
 import { DatePickerWithRange } from '@/components/Progress/DateRange'
 import ProgressAnalytics from '@/components/Progress/ProgressAnalytics'
+import Link from 'next/link'
 
 const announcements = [
     {
@@ -68,7 +69,9 @@ const Dashboard = () => {
                     <CardTitle>
                         <div className='flex justify-between items-start '>
                             <p>Lessons</p>
-                            <Button>See More</Button>
+                            <Link href='/lessons'>
+                                <Button>See More</Button>
+                            </Link>
                         </div>
                     </CardTitle>
                 </CardHeader>
@@ -85,9 +88,9 @@ const Dashboard = () => {
                     <div className='flex gap-2'>
                         <DatePickerWithRange />
                         <Button variant='secondary' className='cursor-pointer'>Search</Button>
-                       
+
                     </div>
-                 
+
                     <ProgressAnalytics />
 
                 </CardContent>
