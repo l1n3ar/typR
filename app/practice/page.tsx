@@ -3,6 +3,17 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { RefreshCw, CircleCheckBig, Hourglass, Timer, ArrowRightToLine } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
+import { generate } from 'random-words';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from '@/components/ui/button';
 
 interface AnalyticsCardProps {
   title: string;
@@ -26,11 +37,11 @@ const AnalyticsCard: React.FC<AnalyticsCardProps> = ({ title, value, icon: Icon 
 
 interface TypingLessonProps {
   lessonText: string;
-  timeLimit?: number; // in seconds
+  timeLimit?: number | null; // in seconds
   id?: string;
-  level? : string
+  level?: string;
   name?: string;
-  rounded? : boolean
+  rounded?: boolean;
 }
 
 export const TypingLesson: React.FC<TypingLessonProps> = ({ lessonText, timeLimit, id, name, level, rounded }) => {
@@ -65,7 +76,7 @@ export const TypingLesson: React.FC<TypingLessonProps> = ({ lessonText, timeLimi
   }, []);
 
   useEffect(() => {
-    if (startTime && timeLimit && !endTime) {
+    if (startTime && timeLimit !== null && !endTime) {
       const timer = setInterval(() => {
         const now = new Date();
         const elapsed = Math.floor((now.getTime() - startTime.getTime()) / 1000);
@@ -101,7 +112,7 @@ export const TypingLesson: React.FC<TypingLessonProps> = ({ lessonText, timeLimi
     const newInput = e.target.value;
     if (!startTime) {
       setStartTime(new Date());
-      if (timeLimit) {
+      if (timeLimit !== null) {
         setTimeLeft(timeLimit);
       }
     }
@@ -120,10 +131,10 @@ export const TypingLesson: React.FC<TypingLessonProps> = ({ lessonText, timeLimi
           <h1 className='text-3xl font-light font-mono'># {id ? id : 'P-001'}</h1>
           <p className='text-neutral-400 font-mono font-light'>{name ? name : 'Learning the basics'}</p>
         </div>
-        <div className='border border-green-300 rounded-lg px-2 font-mono py-1 '>{level?.toUpperCase()}</div>
+        {level && <div className='border border-green-300 rounded-lg px-2 font-mono py-1 '>{level?.toUpperCase()}</div>}
         <button
           onClick={restartLesson}
-          className="flex items-center justify-center bg-black text-white py-2 px-4 rounded-md hover:bg-neutral-800 transition-colors duration-200 shadow-sm"
+          className="flex items-center justify-center bg-black text-white py-2 px-4 rounded-md hover:bg-neutral-900 transition-colors duration-200 shadow-sm"
         >
           <RefreshCw className="mr-2" size={16} />
           <span className='font-mono font-light text-muted'>Restart</span>
@@ -179,12 +190,46 @@ export const TypingLesson: React.FC<TypingLessonProps> = ({ lessonText, timeLimi
 };
 
 const Main = () => {
+  const [paragraph, setParagraph] = useState('');
+  const [selectedTime, setSelectedTime] = useState<number | null>(null); // default to null (off)
+
+  useEffect(() => {
+    setParagraph(generate({ min: 20, max: 30, join: " " }));
+  }, []);
+
+  const handleTimeSelect = (value: string) => {
+    setSelectedTime(value === 'off' ? null : Number(value));
+  };
+
   return (
-    <TypingLesson
-      lessonText="The quick brown fox jumps over the lazy dog. 
-      This is a longer test to ensure that the typing experience is smooth and enjoyable for the user. It includes multiple sentences to provide a more comprehensive typing challenge."
-      // timeLimit={10} 
-    />
+    <div className='bg-black h-full w-screen p-4 relative'>
+      <div className='absolute top-[4rem] left-[60rem]'>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className='flex items-center font-mono text-white p-2 rounded-lg gap-2 px-4 cursor-pointer hover:bg-neutral-900'>
+              <div>Timer </div>
+              <div className={`h-[0.5rem] w-[0.5rem] rounded-full ${selectedTime === null ? 'bg-gray-500' : 'bg-green-400'}`}></div>
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuLabel>Seconds</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuRadioGroup value={selectedTime?.toString() || 'off'} onValueChange={handleTimeSelect}>
+              <DropdownMenuRadioItem value="off">Off</DropdownMenuRadioItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuRadioItem value="10">10</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="30">30</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="60">60</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="120">120</DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <TypingLesson
+        lessonText={paragraph}
+        timeLimit={selectedTime}
+      />
+    </div>
   );
 }
 
