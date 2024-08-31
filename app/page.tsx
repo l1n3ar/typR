@@ -15,19 +15,19 @@ export default function Home() {
   const router = useRouter()
 
 
-  useEffect(() => {
-    const checkSession = async () => {
-      const session = await getSession()
-      console.log('Session:', session)
-      if (session?.user.id) {
-        console.log('Redirecting to dashboard')
-        router.push('/dashboard')
-      } else {
-        console.log('No user session found')
-      }
-    }
-    checkSession()
-  }, [router])
+  // useEffect(() => {
+  //   const checkSession = async () => {
+  //     const session = await getSession()
+  //     console.log('Session:', session)
+  //     if (session?.user.id) {
+  //       console.log('Redirecting to dashboard')
+  //       router.push('/dashboard')
+  //     } else {
+  //       console.log('No user session found')
+  //     }
+  //   }
+  //   checkSession()
+  // }, [router])
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')

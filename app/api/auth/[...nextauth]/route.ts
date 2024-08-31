@@ -2,12 +2,10 @@ import NextAuth, { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import { PrismaClient } from "@prisma/client"
 import bcrypt from "bcrypt"
+import prisma from "@/lib/prisma" 
 
-const prisma = new PrismaClient()
-
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
@@ -25,7 +23,7 @@ const authOptions: NextAuthOptions = {
           return null
         }
 
-        const user = await prisma.user.findUnique({
+        const user = await prisma.user.findFirst({
           where: { email: credentials.email },
         })
 
