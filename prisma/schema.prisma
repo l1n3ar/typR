@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  name          String
+  email         String    @unique
+  password      String?
+  subscriptionId String?
+  subscription  Subscription? @relation(fields: [subscriptionId], references: [id])
+  lastLogin     DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  createdBy     String?
+  updatedBy     String?
+  isActive      Boolean   @default(true)
+}
+
+model Subscription {
+  id        String   @id @default(uuid())
+  name      String
+  value     String
+  type      String
+  users     User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdBy String?
+  updatedBy String?
+  isActive  Boolean  @default(true)
+}
+
+model LessonPlan {
+  id        String   @id @default(uuid())
+  title     String
+  level     String
+  isLocked  Boolean  @default(false)
+  lessons   Lesson[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdBy String?
+  updatedBy String?
+  isActive  Boolean  @default(true)
+}
+
+model Lesson {
+  id           String     @id @default(uuid())
+  name         String
+  content      String
+  type         String
+  isLocked     Boolean    @default(false)
+  lessonPlanId String
+  lessonPlan   LessonPlan @relation(fields: [lessonPlanId], references: [id])
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  createdBy    String?
+  updatedBy    String?
+  isActive     Boolean    @default(true)
+}

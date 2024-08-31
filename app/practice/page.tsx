@@ -37,7 +37,7 @@ const AnalyticsCard: React.FC<AnalyticsCardProps> = ({ title, value, icon: Icon 
 
 interface TypingLessonProps {
   lessonText: string;
-  timeLimit?: number | null; // in seconds
+  timeLimit?: number | undefined; // in seconds
   id?: string;
   level?: string;
   name?: string;
@@ -80,7 +80,7 @@ export const TypingLesson: React.FC<TypingLessonProps> = ({ lessonText, timeLimi
       const timer = setInterval(() => {
         const now = new Date();
         const elapsed = Math.floor((now.getTime() - startTime.getTime()) / 1000);
-        const remaining = Math.max(timeLimit - elapsed, 0);
+        const remaining = timeLimit !== undefined ? Math.max(timeLimit - elapsed, 0) : null;
         setTimeLeft(remaining);
         if (remaining === 0) {
           clearInterval(timer);
@@ -112,7 +112,7 @@ export const TypingLesson: React.FC<TypingLessonProps> = ({ lessonText, timeLimi
     const newInput = e.target.value;
     if (!startTime) {
       setStartTime(new Date());
-      if (timeLimit !== null) {
+      if (timeLimit !== null && timeLimit !== undefined) {
         setTimeLeft(timeLimit);
       }
     }
@@ -227,7 +227,7 @@ const Main = () => {
       </div>
       <TypingLesson
         lessonText={paragraph}
-        timeLimit={selectedTime}
+        timeLimit={selectedTime || undefined}
       />
     </div>
   );
