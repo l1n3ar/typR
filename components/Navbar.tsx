@@ -10,13 +10,15 @@ import {
 import { Button } from "./ui/button"
 import { Mail, SquareArrowOutUpRight } from "lucide-react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 const Navbar = () => {
+  const router = useRouter()
   return (
-    <div className='flex items-center justify-between border-b w-full h-1/3 p-4 bg-white'>
+    <div className='flex items-center justify-between  w-full h-1/3 p-4 bg-white'>
       <div className="flex items-center justify-between gap-10">
 
-        <div className="text-5xl font-bold">.typR</div>
+        <div className="text-5xl font-bold hover:cursor-pointer" onClick={() => router.replace('/dashboard')}>.typR</div>
         <div>
         </div>
 

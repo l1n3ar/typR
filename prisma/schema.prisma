@@ -55,10 +55,16 @@ model Module {
   lessonPlans LessonPlan[]
 }
 
+enum Type {
+  INSTRUCTIONAL
+  PRACTICE
+  
+}
 model LessonPlan {
   id        String   @id @default(uuid())
   title     String
   level     Level    @default(BASIC)
+  type         Type @default(PRACTICE)
   isLocked  Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -71,17 +77,14 @@ model LessonPlan {
 }
 
 
-enum LessonType {
-  INSTRUCTIONAL
-  PRACTICE
-}
+
 
 model Lesson {
   id           String     @id @default(uuid())
   name         String
   content      String
   level        Level      @default(BASIC)
-  type         LessonType @default(PRACTICE)
+
   isLocked     Boolean    @default(false)
   lessonPlanId String
   createdAt    DateTime   @default(now())

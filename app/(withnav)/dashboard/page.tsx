@@ -68,7 +68,7 @@ const Dashboard = () => {
                     <CardTitle>
                         <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center'>
                             <p className='mb-2 sm:mb-0'>Modules</p>
-                            <Link href='/lessons'>
+                            <Link href='/modules'>
                                 <Button>See More</Button>
                             </Link>
                         </div>

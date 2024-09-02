@@ -32,7 +32,7 @@ export async function POST(req: Request) {
             data: lessons.map((lesson: Lesson) => ({
                 name: lesson.name,
                 content: lesson.content,
-                type: lesson.type,
+        
                 lessonPlanId,
                 createdBy: userId,
                 createdAt: new Date()

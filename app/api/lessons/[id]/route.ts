@@ -40,7 +40,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
             data: {
                 name,
                 content,
-                type,
+         
                 lessonPlanId,
                 updatedBy: user?.id,
                 updatedAt: new Date()
