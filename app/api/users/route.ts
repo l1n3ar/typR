@@ -42,18 +42,8 @@ export async function GET() {
       return response(false, null, "Unauthorized", "Unauthorized", 401)
     }
 
-    const users = await prisma.user.findMany({
-      select: {
-        id: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        lastLogin: true,
-        createdAt: true,
-        updatedAt: true,
-        isActive: true,
-      },
-    })
+    const users = await prisma.user.findMany()
+    
     return response(true, users, "Users retrieved successfully", "Users retrieved successfully")
   } catch (error: any) {
     return response(false, null, "Unable to fetch users", error.message, 400)

@@ -32,8 +32,8 @@ export default function SignUp() {
         })
 
         if (response.ok) {
-          
-            signIn('credentials', { email, password, callbackUrl: '/dashboard' })
+           
+            signIn('credentials', { email, password, callbackUrl: '/landing' })
         } else {
          
             const data = await response.json()

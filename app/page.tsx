@@ -13,21 +13,8 @@ import Image from 'next/image'
 
 export default function Home() {
   const router = useRouter()
+  // const session = useSession()
 
-
-  // useEffect(() => {
-  //   const checkSession = async () => {
-  //     const session = await getSession()
-  //     console.log('Session:', session)
-  //     if (session?.user.id) {
-  //       console.log('Redirecting to dashboard')
-  //       router.push('/dashboard')
-  //     } else {
-  //       console.log('No user session found')
-  //     }
-  //   }
-  //   checkSession()
-  // }, [router])
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -44,9 +31,10 @@ export default function Home() {
     })
 
     if (result?.ok) {
+      
       router.push('/dashboard')
     } else {
-      // Handle error
+  
       console.error('Login failed')
     }
   }
