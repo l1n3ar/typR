@@ -1,35 +1,83 @@
-import prisma from "@/lib/prisma";
-import { Lesson } from "@prisma/client";
-import {currentUser,response} from "@/utils/helpers"
-import { NextApiRequest } from "next";
+import prisma from "@/lib/prisma"
+import { currentUser, response } from "@/utils/helpers"
 
-export async function GET(req: Request) {
-  try {
-    const lessons = await prisma.lesson.findMany();
-    return response(true, lessons, "Lessons retrieved successfully", "Lessons retrieved successfully");
-  } catch (error: any) {
-    return response(false, null, "An error occurred", error instanceof Error ? error.message : "Unknown error");
-  }
+export async function GET(req: Request, { params }: { params: { id: string } }) {
+    try {
+        const lesson = await prisma.lesson.findUnique({
+            where: { id: params.id }
+        })
+
+        if (!lesson) {
+            return response(false, null, "Lesson not found", "No lesson found with the given ID",404)
+        }
+
+        return response(true, lesson, "lesson retrieved successfully", "lesson retrieved successfully")
+    } catch (error: any) {
+        return response(false, null, "An error occurred", error.message,500)
+    }
 }
 
-export async function POST(req: NextApiRequest) {
-  try {
-    const userId = await currentUser();
-    const { lessons, lessonPlanId } = await req.body;
+export async function PUT(req: Request, { params }: { params: { id: string } }) {
+    try {
+        const user = await currentUser()
 
-    const dbLessons = await prisma.lesson.createMany({
-      data: lessons.map((lesson: Lesson) => ({
-        name: lesson.name,
-        content: lesson.content,
-        type: lesson.type,
-        lessonPlanId,
-        createdBy: userId,
-        createdAt: new Date()
-      }))
-    });
+        if (!user) {
+            return response(false, null, "Unauthorized", "Unauthorized", 401)
+        }
 
-    return response(true, dbLessons, "Lessons created successfully", "Lessons created successfully");
-  } catch (error : any) {
-    return response(false, null, "An error occurred", error.message);
-  }
+        const { name, content, type, lessonPlanId } = await req.json()
+
+        const existingLesson = await prisma.lesson.findUnique({
+            where: { id: params.id }
+        })
+
+        if (!existingLesson) {
+            return response(false, null, "Lesson not found", "No lesson found with the given ID",404)
+        }
+
+        const lesson = await prisma.lesson.update({
+            where: { id: params.id },
+            data: {
+                name,
+                content,
+                type,
+                lessonPlanId,
+                updatedBy: user?.id,
+                updatedAt: new Date()
+            }
+        })
+        return response(true, lesson, "lesson updated successfully", "lesson updated successfully")
+    } catch (error: any) {
+        return response(false, null, "An error occurred", error.message,500)
+    }
+}
+
+export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+    try {
+        const user = await currentUser()
+
+        if (!user) {
+            return response(false, null, "Unauthorized", "Unauthorized", 401)
+        }
+
+        const existingLesson = await prisma.lesson.findUnique({
+            where: { id: params.id }
+        })
+
+        if (!existingLesson) {
+            return response(false, null, "Lesson not found", "No lesson found with the given ID")
+        }
+
+        const lesson = await prisma.lesson.update({
+            where: { id: params.id },
+            data: {
+                isActive: false,
+                updatedBy: user?.id,
+                updatedAt: new Date()
+            }
+        })
+        return response(true, lesson, "lesson deactivated successfully", "lesson deactivated successfully")
+    } catch (error: any) {
+        return response(false, null, "An error occurred", error.message,500)
+    }
 }

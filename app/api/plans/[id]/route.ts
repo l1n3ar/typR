@@ -1,7 +1,6 @@
 import prisma from "@/lib/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { currentUser, response } from "@/utils/helpers";
-import { NextApiRequest } from "next";
 
 export async function GET({ params }: { params: { id: string } }) {
   try {
@@ -21,7 +20,7 @@ export async function GET({ params }: { params: { id: string } }) {
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const userId = await currentUser();
+    const user = await currentUser();
     const { title, level, moduleId } = await req.json();
 
     const existingPlan = await prisma.lessonPlan.findUnique({
@@ -39,7 +38,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         level,
         moduleId,
         updatedAt: new Date(),
-        updatedBy: userId
+        updatedBy: user?.id
       }
     });
 
@@ -51,7 +50,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 
 export async function DELETE({ params }: { params: { id: string } }) {
   try {
-    const userId = await currentUser();
+    const user = await currentUser();
 
     const existingPlan = await prisma.lessonPlan.findUnique({
       where: { id: params.id }
@@ -66,7 +65,7 @@ export async function DELETE({ params }: { params: { id: string } }) {
       data: {
         isActive: false,
         updatedAt: new Date(),
-        updatedBy: userId
+        updatedBy: user?.id
       }
     });
 
