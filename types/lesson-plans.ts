@@ -5,3 +5,10 @@ export type lessonPlan = {
     level : string,
     image : string,
 }
+
+export type Module = {
+    id : string,
+    name : string,
+    level : string,
+    description? : string,
+}

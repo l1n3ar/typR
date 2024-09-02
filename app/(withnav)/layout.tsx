@@ -11,7 +11,7 @@ export default function WithNavLayout({
    
 
   
-            <div className='w-full h-full flex flex-col bg-gray-50'>
+            <div className='w-full h-full flex flex-col bg-gray-50 min-h-screen'>
             <Navbar />
             <div className='grow p-4'>{children}</div>
             </div>  

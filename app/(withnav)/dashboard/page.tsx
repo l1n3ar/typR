@@ -10,11 +10,11 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import Table from '@/components/Table'
-import SubscriptionCard from '@/components/SubscriptionCard'
+
 import { Button } from '@/components/ui/button'
-import ProgressTabs from '@/components/Progress/ProgressTabs'
+
 import Activity from '@/components/Activity'
-import { Check } from 'lucide-react'
+
 import { DatePickerWithRange } from '@/components/Progress/DateRange'
 import ProgressAnalytics from '@/components/Progress/ProgressAnalytics'
 import Link from 'next/link'
@@ -44,18 +44,17 @@ const AnnouncementCard = ({ title, description }: { title: string, description: 
             <p className="text-sm text-muted-foreground">
                 {description}
             </p>
-
         </div>
     </div>
 )
 
 const InfoCard = ({ title, description }: { title: string, description: string }) => (
-    <Card className='col-span-1 row-span-2'>
+    <Card className='col-span-full sm:col-span-1 row-span-1 sm:row-span-2'>
         <CardHeader>
             <CardTitle>{title}</CardTitle>
             <CardDescription>{description}</CardDescription>
-            <CardContent className='flex items-center justify-center h-[25rem]'>
-                <div className='bg-gray-50 rounded-full w-1/2 text-gray-600 font-semibold p-4 text-center'>Coming soon</div>
+            <CardContent className='flex items-center justify-center h-[15rem] sm:h-[25rem]'>
+                <div className='bg-gray-50 rounded-full w-full sm:w-1/2 text-gray-600 font-semibold p-4 text-center'>Coming soon</div>
             </CardContent>
         </CardHeader>
     </Card>
@@ -63,12 +62,12 @@ const InfoCard = ({ title, description }: { title: string, description: string }
 
 const Dashboard = () => {
     return (
-        <div className='grid gap-4 w-full h-screen grid-cols-4 grid-rows-4'>
-            <Card className='col-span-3 row-span-2'>
+        <div className='grid gap-4 w-full min-h-screen grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-auto sm:grid-rows-4'>
+            <Card className='col-span-full lg:col-span-3 row-span-auto sm:row-span-2'>
                 <CardHeader>
                     <CardTitle>
-                        <div className='flex justify-between items-start '>
-                            <p>Lessons</p>
+                        <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center'>
+                            <p className='mb-2 sm:mb-0'>Modules</p>
                             <Link href='/lessons'>
                                 <Button>See More</Button>
                             </Link>
@@ -80,57 +79,56 @@ const Dashboard = () => {
                 </CardContent>
             </Card>
 
-            <Card className='col-span-1 row-span-2 pr-2'>
+            <Card className='col-span-full sm:col-span-1 row-span-auto sm:row-span-2'>
                 <CardHeader>
                     <CardTitle>Progress</CardTitle>
                 </CardHeader>
                 <CardContent className='overflow-auto mt-4'>
-                    <div className='flex gap-2'>
+                    <div className='flex flex-col sm:flex-row gap-2'>
                         <DatePickerWithRange />
-                        <Button variant='secondary' className='cursor-pointer'>Search</Button>
-
+                        <Button variant='secondary' className='cursor-pointer w-full sm:w-auto'>Search</Button>
                     </div>
-
                     <ProgressAnalytics />
-
                 </CardContent>
             </Card>
 
-            <div className='row-span-2 col-span-2 grid gap-4 grid-rows-2'>
-                <Card className='col-span-2 row-span-1'>
+            <div className='col-span-full  lg:col-span-2 row-span-auto sm:row-span-2 grid gap-4 grid-cols-1 sm:grid-cols-2'>
+                <Card className='col-span-full sm:col-span-2 row-span-1'>
                     <CardHeader>
                         <CardTitle>Activity</CardTitle>
                     </CardHeader>
-                    <CardContent>
-                        <Activity />
+                    <CardContent className='flex items-center justify-center'>
+                        {/* <Activity /> */}
+                        <div className='bg-gray-50 rounded-full w-full sm:w-1/2 text-gray-600 font-semibold p-4 text-center'>Coming soon</div>
                     </CardContent>
                 </Card>
 
-                <Card className='col-span-2 row-span-1'>
+                <Card className='col-span-full sm:col-span-2 row-span-1'>
                     <CardHeader>
                         <CardTitle>Certificates</CardTitle>
                     </CardHeader>
                     <CardContent className='flex items-start justify-center h-full'>
-                        <div className='bg-gray-50 rounded-full w-1/2 text-gray-600 font-semibold p-4 text-center'>Coming soon</div>
+                        <div className='bg-gray-50 rounded-full w-full sm:w-1/2 text-gray-600 font-semibold p-4 text-center'>Coming soon</div>
                     </CardContent>
                 </Card>
             </div>
 
             <InfoCard title="Competitions" description="" />
 
-            <Card className='col-span-1 row-span-2'>
+            <Card className='col-span-full sm:col-span-1 row-span-auto sm:row-span-2'>
                 <CardHeader className='mb-4'>
                     <CardTitle>Announcements</CardTitle>
                     <CardDescription className=''>Our latest updates</CardDescription>
                 </CardHeader>
-                <CardContent className="grid gap-1">
-                    {announcements.map((announcement, index) => (
+                <CardContent className="grid gap-1 flex items-center justify-center">
+                <div className='bg-gray-50 rounded-full w-full sm:w-1/2 text-gray-600 font-semibold p-4 text-center'>Coming soon</div>
+                    {/* {announcements.map((announcement, index) => (
                         <AnnouncementCard
                             key={index}
                             title={announcement.title}
                             description={announcement.description}
                         />
-                    ))}
+                    ))} */}
                 </CardContent>
                 <CardFooter>
                     {/* <Button className="w-full">
