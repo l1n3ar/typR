@@ -33,7 +33,7 @@ const Lesson = ({ params }: { params: { id: string } }) => {
     };
 
     return (
-        <div className='bg-white w-full rounded-lg flex flex-col items-center gap-10 p-4' onKeyPress={handleKeyPress} tabIndex={0}>
+        <div className='bg-white w-full rounded-lg flex flex-col items-center gap-20 p-4' onKeyDown={handleKeyPress} tabIndex={0}>
             <div className='h-full w-full flex items-center justify-between '>
                 <div className='flex flex-col gap-2'>
                     <TypographyH3>{lessonPlan?.id}</TypographyH3>
@@ -46,10 +46,10 @@ const Lesson = ({ params }: { params: { id: string } }) => {
                     <RefreshCcw className="mr-2 h-4 w-4" /> Restart
                 </Button>
             </div>
-            <div className='h-3 rounded-full bg-gray-100 w-1/4'>
+            {/* <div className='h-3 rounded-full bg-gray-100 w-1/4'>
                 <div className='w-1/2 h-full rounded-full bg-green-200'></div>
-            </div>
-            <div className='flex-1 h-full w-full flex flex-wrap items-center justify-start mb-20 gap-4'>
+            </div> */}
+            <div className='flex-1 h-full w-5/6  flex flex-wrap items-center justify-start mb-20 gap-4'>
                 {text.split('').map((char, index) => {
                     let borderColor = 'border-b';
                     let textColor = 'text-gray-500';
@@ -61,11 +61,11 @@ const Lesson = ({ params }: { params: { id: string } }) => {
                             borderColor = 'border-red-200';
                                                }
                     } else if (index === userInput.length) {
-                        borderColor = 'border-gray-500';
+                        borderColor = 'border-gray-800';
                     }
 
                     return (
-                        <span key={index} className={`font-mono text-5xl border-b-4 ${borderColor} p-2 ${textColor}`}>
+                        <span key={index} className={`font-mono text-5xl border-b-4 border-white ${borderColor} p-2 ${textColor}`}>
                             {char}
                         </span>
                     );
