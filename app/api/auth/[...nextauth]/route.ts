@@ -6,7 +6,7 @@ import bcrypt from "bcrypt"
 import prisma from "@/lib/prisma" 
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
+//   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -45,8 +45,11 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+
+    
     async session({ session, user }) {
       if (session.user) {
+        console.log(session)
         session.user.id = user.id
       }
       return session

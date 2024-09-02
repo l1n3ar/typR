@@ -8,18 +8,18 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(uuid())
-  name          String
-  email         String    @unique
-  password      String?
+  id             String        @id @default(uuid())
+  name           String
+  email          String        @unique
+  password       String?
   subscriptionId String?
-  subscription  Subscription? @relation(fields: [subscriptionId], references: [id])
-  lastLogin     DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  createdBy     String?
-  updatedBy     String?
-  isActive      Boolean   @default(true)
+  lastLogin      DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  createdBy      String?
+  updatedBy      String?
+  isActive       Boolean       @default(true)
+  subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
 }
 
 model Subscription {
@@ -27,12 +27,24 @@ model Subscription {
   name      String
   value     String
   type      String
-  users     User[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   createdBy String?
   updatedBy String?
   isActive  Boolean  @default(true)
+  users     User[]
+}
+
+model Module {
+  id          String       @id @default(uuid())
+  name        String
+  description String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  createdBy   String?
+  updatedBy   String?
+  isActive    Boolean      @default(true)
+  lessonPlans LessonPlan[]
 }
 
 model LessonPlan {
@@ -40,25 +52,33 @@ model LessonPlan {
   title     String
   level     String
   isLocked  Boolean  @default(false)
-  lessons   Lesson[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   createdBy String?
   updatedBy String?
   isActive  Boolean  @default(true)
+  moduleId  String
+  lessons   Lesson[]
+  module    Module   @relation(fields: [moduleId], references: [id])
+}
+
+
+enum LessonType {
+  VIDEO
+  PRACTICE
 }
 
 model Lesson {
   id           String     @id @default(uuid())
   name         String
   content      String
-  type         String
+  type         LessonType @default(PRACTICE)
   isLocked     Boolean    @default(false)
   lessonPlanId String
-  lessonPlan   LessonPlan @relation(fields: [lessonPlanId], references: [id])
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   createdBy    String?
   updatedBy    String?
   isActive     Boolean    @default(true)
+  lessonPlan   LessonPlan @relation(fields: [lessonPlanId], references: [id])
 }

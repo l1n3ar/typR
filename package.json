@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-     "seed": "npx ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/seed.ts"
+    "seed": "npx ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/seed.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.2.3",
@@ -33,6 +33,7 @@
     "lucide-react": "^0.408.0",
     "next": "14.2.5",
     "next-auth": "^4.24.7",
+    "next-swagger-doc": "^0.4.0",
     "random-words": "^2.0.1",
     "react": "^18",
     "react-calendar-heatmap": "^1.9.0",
