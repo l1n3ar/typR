@@ -96,7 +96,7 @@ export default function Lessons() {
 
             <div className="grid grid-cols-5 gap-6 mt-10 w-full">
               {module.lessonPlans.map((lessonPlan: { id: Key | null | undefined; isLocked: any; name: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined, type: Type }, index: number) => (
-                <div key={lessonPlan.id} className="relative border rounded-lg p-4 flex flex-col items-center hover:shadow-md duration-300" onClick={() => goToLesson(lessonPlan.id)}>
+                <div key={lessonPlan.id} className="relative border rounded-lg p-4 flex flex-col items-center hover:shadow-md duration-300" >
                   <div className="flex justify-between w-full">
                     <span className="text-sm font-semibold">{index + 1}</span>
                     <div className="flex items-center gap-1">
@@ -141,8 +141,8 @@ export default function Lessons() {
                   <Avatar className="w-16 h-16 mb-2">
                     <AvatarFallback>{module.name.split(' ').map((word: string) => word[0]).join('')}</AvatarFallback>
                   </Avatar>
-                  <div className="w-full pt-2 border-t text-center">
-                    <Button className="text-sm" variant='outline'>{lessonPlan.name}</Button>
+                  <div className="w-full pt-2 border-t mt-4 text-center">
+                    <Button className="text-sm" variant='outline' onClick={() => goToLesson(lessonPlan.id)}>{lessonPlan.name}</Button>
                   </div>
                 </div>
               ))}

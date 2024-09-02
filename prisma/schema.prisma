@@ -49,10 +49,11 @@ model Module {
   level       Level        @default(BASIC)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  lessonPlans LessonPlan[]
   createdBy   String?
   updatedBy   String?
   isActive    Boolean      @default(true)
-  lessonPlans LessonPlan[]
+ 
 }
 
 enum Type {

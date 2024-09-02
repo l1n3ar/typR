@@ -1,3 +1,5 @@
+import { LessonPlan } from "@prisma/client"
+
 export type lessonPlan = {
     id : string,
     lessonName : string,
@@ -11,4 +13,5 @@ export type Module = {
     name : string,
     level : string,
     description? : string,
+    lessonPlans? : LessonPlan[]
 }
