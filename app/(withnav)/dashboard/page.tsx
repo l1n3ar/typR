@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
     Card,
     CardContent,
@@ -18,6 +18,8 @@ import Activity from '@/components/Activity'
 import { DatePickerWithRange } from '@/components/Progress/DateRange'
 import ProgressAnalytics from '@/components/Progress/ProgressAnalytics'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
 const announcements = [
     {
@@ -61,6 +63,13 @@ const InfoCard = ({ title, description }: { title: string, description: string }
 )
 
 const Dashboard = () => {
+    // const { data: session, status } = useSession();
+    // const router = useRouter();
+    // useEffect(() => {
+    //     if (status === "unauthenticated") {
+    //         router.replace('/');
+    //     }
+    // }, [status, router]);
     return (
         <div className='grid gap-4 w-full min-h-screen grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-auto sm:grid-rows-4'>
             <Card className='col-span-full lg:col-span-3 row-span-auto sm:row-span-2'>

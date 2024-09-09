@@ -1,6 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import useModuleStore from '@/store/moduleStore';
 import { TypographyH3, TypographyMuted } from '@/components/ui/typography';
 import { Basic } from '@/components/Badges';
@@ -12,6 +14,8 @@ import { ErrorCalculation } from '@prisma/client';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from '@/components/ui/card';
 
 const Lesson = ({ params }: { params: { id: string } }) => {
+    const { data: session, status } = useSession();
+    const router = useRouter();
     const [lessonPlan, setLessonPlan] = useState<any | undefined>(undefined);
     const { findLessonPlan } = useModuleStore();
     const [currentLessonIndex, setCurrentLessonIndex] = useState(0);
@@ -25,6 +29,13 @@ const Lesson = ({ params }: { params: { id: string } }) => {
     const [startTime, setStartTime] = useState<number | null>(null);
     const [wpm, setWpm] = useState<number>(0);
     const [isLessonPlanComplete, setIsLessonPlanComplete] = useState(false);
+    const inputRef = useRef<HTMLDivElement>(null);
+
+    // useEffect(() => {
+    //     if (status === "unauthenticated") {
+    //         router.push('/');
+    //     }
+    // }, [status, router]);
 
     useEffect(() => {
         const fetchLesson = async () => {
@@ -41,7 +52,20 @@ const Lesson = ({ params }: { params: { id: string } }) => {
         if (storedCalculationType) {
             setErrorCalculationType(storedCalculationType as ErrorCalculation);
         }
+
+        // Focus on the input div when the component mounts
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
     }, [params.id, currentLessonIndex]);
+
+    if (status === "loading") {
+        return <div>Loading...</div>;
+    }
+
+    // if (!session) {
+    //     return null;
+    // }
 
     const handleKeyPress = (event: React.KeyboardEvent<HTMLDivElement>) => {
         if (isLessonComplete) return;
@@ -101,6 +125,9 @@ const Lesson = ({ params }: { params: { id: string } }) => {
         setIsLessonComplete(false);
         setStartTime(null);
         setWpm(0);
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
     };
 
     const nextLesson = () => {
@@ -123,7 +150,7 @@ const Lesson = ({ params }: { params: { id: string } }) => {
     };
 
     return (
-        <Card className='w-full p-8' onKeyDown={handleKeyPress} tabIndex={0}>
+        <Card className='w-full p-8' onKeyDown={handleKeyPress} tabIndex={0} ref={inputRef}>
             <CardHeader className='mb-8'>
                 <div className='flex items-center justify-between'>
                     <div>

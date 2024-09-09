@@ -51,6 +51,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         console.log(session)
         session.user.id = user.id
+        // session.user.errorCalculationType = user.errorCalculationType
       }
       return session
     },
