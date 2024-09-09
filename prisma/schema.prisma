@@ -7,6 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+enum ErrorCalculation {
+  SST
+  NORMAL
+  
+}
+
 model User {
   id             String        @id @default(uuid())
   firstName      String
@@ -20,6 +27,7 @@ model User {
   createdBy      String?
   updatedBy      String?
   isActive       Boolean       @default(true)
+  errorCalculation ErrorCalculation @default(NORMAL)
   subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
 }
 

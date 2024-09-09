@@ -7,6 +7,8 @@ import { Basic } from '@/components/Badges';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, MoveRight, RefreshCcw } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
+import { calculateErrors, calculateAccuracy } from '@/utils/errorCalculation';
+import { ErrorCalculation } from '@prisma/client';
 
 const Lesson = ({ params }: { params: { id: string } }) => {
     const [lessonPlan, setLessonPlan] = useState<any | undefined>(undefined);
@@ -16,6 +18,7 @@ const Lesson = ({ params }: { params: { id: string } }) => {
     const [userInput, setUserInput] = useState<string>('');
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const [accuracy, setAccuracy] = useState<number>(100);
+    const [errorCalculationType, setErrorCalculationType] = useState<ErrorCalculation>(ErrorCalculation.NORMAL);
 
     useEffect(() => {
         const fetchLesson = async () => {
@@ -27,6 +30,12 @@ const Lesson = ({ params }: { params: { id: string } }) => {
         };
 
         fetchLesson();
+
+        // Get error calculation type from local storage
+        const storedCalculationType = localStorage.getItem('errorCalculationType');
+        if (storedCalculationType) {
+            setErrorCalculationType(storedCalculationType as ErrorCalculation);
+        }
     }, [params.id, currentLessonIndex]);
 
     const handleKeyPress = (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -50,11 +59,8 @@ const Lesson = ({ params }: { params: { id: string } }) => {
     };
 
     const updateAccuracy = (input: string) => {
-        let correct = 0;
-        for (let i = 0; i < input.length; i++) {
-            if (input[i] === text[i]) correct++;
-        }
-        setAccuracy(input.length > 0 ? (correct / input.length) * 100 : 100);
+        const newAccuracy = calculateAccuracy(input, text, errorCalculationType);
+        setAccuracy(newAccuracy);
     };
 
     const restartLesson = () => {
