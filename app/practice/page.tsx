@@ -38,13 +38,25 @@ const AnalyticsCard: React.FC<AnalyticsCardProps> = ({ title, value, icon: Icon 
 interface TypingLessonProps {
   lessonText: string;
   timeLimit?: number | undefined; // in seconds
-  id?: string;
-  level?: string;
-  name?: string;
-  rounded?: boolean;
 }
 
-export const TypingLesson: React.FC<TypingLessonProps> = ({ lessonText, timeLimit, id, name, level, rounded }) => {
+const calculateWpm = (userInput: string, startTime: Date, endTime: Date) => {
+  const timeElapsed = (endTime.getTime() - startTime.getTime()) / 60000; // in minutes
+  const wordsTyped = userInput.trim().split(/\s+/).length;
+  return Math.round(wordsTyped / timeElapsed);
+};
+
+const calculateAccuracy = (userInput: string, lessonText: string) => {
+  let correct = 0;
+  for (let i = 0; i < userInput.length; i++) {
+    if (userInput[i] === lessonText[i]) {
+      correct++;
+    }
+  }
+  return Math.round((correct / userInput.length) * 100);
+};
+
+const TypingLesson: React.FC<TypingLessonProps> = ({ lessonText, timeLimit }) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<Date | null>(null);
@@ -94,17 +106,8 @@ export const TypingLesson: React.FC<TypingLessonProps> = ({ lessonText, timeLimi
 
   useEffect(() => {
     if (endTime && startTime) {
-      const timeElapsed = (endTime.getTime() - startTime.getTime()) / 60000; // in minutes
-      const wordsTyped = userInput.trim().split(/\s+/).length;
-      setWpm(Math.round(wordsTyped / timeElapsed));
-
-      let correct = 0;
-      for (let i = 0; i < userInput.length; i++) {
-        if (userInput[i] === lessonText[i]) {
-          correct++;
-        }
-      }
-      setAccuracy(Math.round((correct / userInput.length) * 100));
+      setWpm(calculateWpm(userInput, startTime, endTime));
+      setAccuracy(calculateAccuracy(userInput, lessonText));
     }
   }, [endTime, startTime, lessonText, userInput]);
 
@@ -125,25 +128,22 @@ export const TypingLesson: React.FC<TypingLessonProps> = ({ lessonText, timeLimi
   }, [lessonText, startTime, timeLimit]);
 
   return (
-    <div className={`flex flex-col items-center justify-start min-h-screen bg-black text-white p-4 overflow-y-hidden gap-48 ${rounded ? 'rounded-lg' : ''}`}>
+    <div className={`flex flex-col items-center justify-start min-h-screen bg-black text-white p-4 overflow-y-hidden gap-48`}>
       <div className='flex w-full p-4 items-center justify-between'>
-        <div className='flex flex-col items-start '>
-          <h1 className='text-3xl font-light font-mono'># {id ? id : 'P-001'}</h1>
-          <p className='text-neutral-400 font-mono font-light'>{name ? name : 'Learning the basics'}</p>
+        <div className='absolute top-4 right-4'>
+          <button
+            onClick={restartLesson}
+            className="flex items-center justify-center bg-black text-white py-2 px-4 rounded-md hover:bg-neutral-900 transition-colors duration-200 shadow-sm"
+          >
+            <RefreshCw className="mr-2" size={16} />
+            <span className='font-mono font-light text-muted'>Restart</span>
+          </button>
         </div>
-        {level && <div className='border border-green-300 rounded-lg px-2 font-mono py-1 '>{level}</div>}
-        <button
-          onClick={restartLesson}
-          className="flex items-center justify-center bg-black text-white py-2 px-4 rounded-md hover:bg-neutral-900 transition-colors duration-200 shadow-sm"
-        >
-          <RefreshCw className="mr-2" size={16} />
-          <span className='font-mono font-light text-muted'>Restart</span>
-        </button>
       </div>
       {!showAnalytics && 
       <div className="relative w-screen max-w-4xl text-2xl font-mono leading-relaxed flex flex-col gap-2">
         {timeLeft !== null && (
-          <div className="absolute top-0 left-0 -mt-20 text-gray-400">
+          <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-gray-400">
             {timeLeft}s
           </div>
         )}
@@ -206,7 +206,7 @@ const Main = () => {
       <div className='absolute top-[4rem] left-[60rem]'>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <div className='flex items-center font-mono text-white p-2 rounded-lg gap-2 px-4 cursor-pointer hover:bg-neutral-900'>
+            <div className='flex items-center font-mono text-white p-2 rounded-lg g px-4 cursor-pointer hover:bg-neutral-900'>
               <div>Timer </div>
               <div className={`h-[0.5rem] w-[0.5rem] rounded-full ${selectedTime === null ? 'bg-gray-500' : 'bg-green-400'}`}></div>
             </div>
@@ -227,8 +227,7 @@ const Main = () => {
       </div>
       <TypingLesson
         lessonText={paragraph}
-        timeLimit={selectedTime || undefined}
-      />
+        timeLimit={selectedTime || undefined}      />
     </div>
   );
 }

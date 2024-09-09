@@ -9,7 +9,9 @@ export async function GET(req: Request, res: Response) {
             return response(false, null, "Unauthorized", "Unauthorized", 401)
         }
 
-        const plans = await prisma.lessonPlan.findMany()
+        const plans = await prisma.lessonPlan.findMany({
+            include: { lessons: true }
+        })
         return response(true, plans, "Lesson plans retrieved successfully", "Lesson plans retrieved successfully")
     } catch (error: any) {
         return response(false, null, "An error occurred", error.message, 500)
@@ -25,7 +27,7 @@ export async function POST(req: Request, res: Response) {
 
         const { moduleId, lessonPlans } = await req.json()
 
-        const createdPlans = await prisma.lessonPlan.createManyAndReturn({
+        const createdPlans = await prisma.lessonPlan.create({
             data: lessonPlans.map((plan: LessonPlan) => ({
                 title: plan.title,
                 level: plan.level,
@@ -35,8 +37,10 @@ export async function POST(req: Request, res: Response) {
                 moduleId: moduleId,
                 createdAt: new Date(),
                 updatedAt: new Date(),
-                isActive: plan.isActive
-            }))
+                isActive: plan.isActive,
+               
+            })),
+            include: { lessons: true }
         })
 
         return response(true, createdPlans, "Lesson plans created successfully", "Lesson plans created successfully")

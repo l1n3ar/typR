@@ -15,31 +15,31 @@ const Table = () => {
                         <th scope="col" className="px-6 py-3">Module</th>
                         <th scope="col" className="px-6 py-3">Type</th>
                         <th scope="col" className="px-6 py-3">Level</th>
-                        <th scope="col" className="px-6 py-3"><span className="sr-only">Start</span></th>
+                        {/* <th scope="col" className="px-6 py-3"><span className="sr-only">Start</span></th> */}
                     </tr>
                 </thead>
                 <tbody>
                     {lessonPlans.map((plan, index) => (
-                        <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 ">
+                             <th scope="row" className="p-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {plan.id}
                             </th>
-                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <th scope="row" className="p-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {plan.lessonName}
                             </th>
-                            <td className="px-6 py-4">{plan.type}</td>
-                            <td className="px-6 py-4">
+                            <td className="p-6">{plan.type}</td>
+                            <td className="p-6">
 
                                 {
                                     plan.level == "Basic" && <Basic /> || plan.level == 'Intermediate' && <Intermediate /> || plan.level == 'Advanced' && <Advanced />
                                 }
 
                             </td>
-                            <td className="px-6 py-4 text-right">
+                            {/* <td className="p-6text-right">
                                 <a href="#" className="font-medium ">
                                     <Button variant='secondary'>Start</Button>
                                 </a>
-                            </td>
+                            </td> */}
                             {/* <td className="px-6 py-4 text-right">
                                 <Dropdown />
                             </td> */}

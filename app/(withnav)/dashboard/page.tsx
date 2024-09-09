@@ -79,16 +79,17 @@ const Dashboard = () => {
                 </CardContent>
             </Card>
 
-            <Card className='col-span-full sm:col-span-1 row-span-auto sm:row-span-2'>
+            <Card className='col-span-full sm:col-span-1 row-span-auto sm:row-span-2 '>
                 <CardHeader>
                     <CardTitle>Progress</CardTitle>
                 </CardHeader>
-                <CardContent className='overflow-auto mt-4'>
-                    <div className='flex flex-col sm:flex-row gap-2'>
+                <CardContent className='overflow-auto mt-4 flex items-center justify-center'>
+                    {/* <div className='flex flex-col sm:flex-row gap-2'>
                         <DatePickerWithRange />
                         <Button variant='secondary' className='cursor-pointer w-full sm:w-auto'>Search</Button>
                     </div>
-                    <ProgressAnalytics />
+                    <ProgressAnalytics /> */}
+                      <div className='bg-gray-50 rounded-full w-full sm:w-1/2 text-gray-600 font-semibold p-4 text-center'>Coming soon</div>
                 </CardContent>
             </Card>
 
@@ -120,7 +121,7 @@ const Dashboard = () => {
                     <CardTitle>Announcements</CardTitle>
                     <CardDescription className=''>Our latest updates</CardDescription>
                 </CardHeader>
-                <CardContent className="grid gap-1 flex items-center justify-center">
+                <CardContent className=" gap-1 flex items-center justify-center">
                 <div className='bg-gray-50 rounded-full w-full sm:w-1/2 text-gray-600 font-semibold p-4 text-center'>Coming soon</div>
                     {/* {announcements.map((announcement, index) => (
                         <AnnouncementCard
